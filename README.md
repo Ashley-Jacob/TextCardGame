@@ -2,7 +2,7 @@
 
 I created a text-based version of a card game heavily inspired by Uno and Crazy Eights.
 
-Note: Game is not entirely finished, so there may be future adjustments to the code.
+Note: Game is not entirely finished, so there may be bugs that have yet to be addressed.
 
 ## Rules
 
