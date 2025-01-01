@@ -58,10 +58,9 @@ void Deck :: Reset() {
     deck.clear();
     vector<string> suits = {"Red", "Blue", "Green", "Yellow"};
     for (auto x : suits) {
-        for (int i = 0; i <5; i++) {
+        for (int i = 0; i < 10; i++) {
             deck.push_back(new Card(to_string(i), x));
         }
-        deck.push_back(new GiftCard(x));
         deck.push_back(new GiftCard(x));
         deck.push_back(new SkipCard(x));
         deck.push_back(new DrawCard(x, 3));
@@ -174,7 +173,7 @@ string HumanPlayer :: Wild() {
 Card* HumanPlayer :: GetGift() {
 
     int handSize = GetHand()->GetHandSize();
-    if(handSize == 0) return nullptr;
+    if(handSize <= 0) return nullptr;
 
     cout << "Select a card to gift:" << endl;
     PrintHand();
@@ -229,7 +228,7 @@ string CPU :: Wild() {
 
 Card* CPU :: GetGift() {
     int handSize = GetHand()->GetHandSize();
-    if(handSize == 0) return nullptr;
+    if(handSize <= 0) return nullptr;
     int index = rand() % handSize;
     Card* gift = GetHand()->GetCard(index);
     GetHand()->Discard(index);
@@ -269,8 +268,7 @@ void GameHandler :: PrintPlayerHand() {
 void GameHandler :: AdvanceTurn() {
     if(players[current]->GetHand()->GetHandSize() <= 0) {
         rankings.push_back(players[current]->GetName());
-        players.erase(players.begin() + current);
-        numPlayers--;
+        PlayerDone(current);
 
         if(current == 0) EndGameEarly();
     }
@@ -344,7 +342,7 @@ void GameHandler :: HandleVortex(VortexCard* active) {
     if(!active->GetVortexStatus()) {
         int received = 0;
         for(int i = 0; i<players.size(); i++) {
-            if(i == current) continue;
+            if(i == current || players[i]->GetHand()->GetHandSize() <= 1) continue;
             players[current]->GetHand()->AddCard((players[i]->GetGift()));
         }
         active->UseVortex();
@@ -355,7 +353,13 @@ void GameHandler :: HandleVortex(VortexCard* active) {
 void GameHandler :: HandleDraw(DrawCard* active) {
     if(!active->GetCardsDrawn()) {
         players[current]->Draw(active->GetNumCards());
-        cout << players[current]->GetName() << " drew " << active->GetNumCards() << " card(s)";
+        cout << players[current]->GetName() << " drew " << active->GetNumCards() << " card(s)" << endl;
         active->DrawCards();
     }
+}
+
+void GameHandler :: PlayerDone(int index) {
+    players.erase(players.begin() + index);
+    if(index < current) current--;
+    numPlayers--;
 }

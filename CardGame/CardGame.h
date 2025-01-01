@@ -157,6 +157,7 @@ public:
     void HandleSkip(SkipCard* active);
     void HandleVortex(VortexCard* active);
     void HandleDraw(DrawCard* active);
+    void PlayerDone(int index);
 
 private:
     int numPlayers;
