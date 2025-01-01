@@ -18,6 +18,7 @@ Note: Game is not entirely finished, so there may be future adjustments to the c
        1. No card is gifted if the player has no more cards in their hand
     3. Skip: Next player's turn is skipped
     4. Vortex: Player can pick a color to switch to. Every player gifts a card to the next player.
-    5. Draw 3: Next player draws 3 cards (their turn is not skipped)
+       1. Unlike with Gift, a player cannot gift their last card when Vortex is played
+    6. Draw 3: Next player draws 3 cards (their turn is not skipped)
 5. Game ends when the human player runs out of cards or is the last player left
     1. If the human player finishes early, remaining CPUs are ranked based on the numbers of cards they have left
